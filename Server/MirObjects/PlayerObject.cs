@@ -4045,14 +4045,14 @@ namespace Server.MirObjects
 
                             if (player.Info.Equipment[(int)EquipmentSlot.RingL] == null)
                             {
-                                player.ReceiveChat((string.Format("You need to wear a Wedding Ring for recall.", Lover.Name)), ChatType.System);
+                                player.ReceiveChat((string.Format("{0} You need to wear a Wedding Ring for recall.", Lover.Name)), ChatType.System);
                                 ReceiveChat((string.Format("{0} Isn't wearing a Wedding Ring.", Lover.Name)), ChatType.System);
                                 return;
                             }
 
                             if (player.Info.Equipment[(int)EquipmentSlot.RingL].WeddingRing != player.Info.Married)
                             {
-                                player.ReceiveChat((string.Format("You need to wear a Wedding Ring on your left finger for recall.", Lover.Name)), ChatType.System);
+                                player.ReceiveChat((string.Format("You need to wear a Wedding Ring on your left finger for recall. {0} ", Lover.Name)), ChatType.System);
                                 ReceiveChat((string.Format("{0} Isn't wearing a Wedding Ring.", Lover.Name)), ChatType.System);
                                 return;
                             }
@@ -4963,7 +4963,7 @@ namespace Server.MirObjects
                                     ReceiveChat("--Monster Info--", ChatType.System2);
                                     ReceiveChat(string.Format("ID : {0}, Name : {1}", monOb.Info.Index, monOb.Name), ChatType.System2);
                                     ReceiveChat(string.Format("Level : {0}, X : {1}, Y : {2}", monOb.Level, monOb.CurrentLocation.X, monOb.CurrentLocation.Y), ChatType.System2);
-                                    ReceiveChat(string.Format("HP : {0}, MinDC : {1}, MaxDC : {1}", monOb.Info.HP, monOb.MinDC, monOb.MaxDC), ChatType.System2);
+                                    ReceiveChat(string.Format("HP : {0}, MinDC : {1}, MaxDC : {2}", monOb.Info.HP, monOb.MinDC, monOb.MaxDC), ChatType.System2);
                                     break;
                                 case ObjectType.Merchant:
                                     NPCObject npcOb = (NPCObject)ob;
@@ -11304,7 +11304,8 @@ namespace Server.MirObjects
                                 return;
                             }
                             break;
-                        case 12://LotteryTicket                                                                                    
+                        case 12://LotteryTicket  
+
                             if (Envir.Random.Next(item.Info.Effect * 32) == 1) // 1st prize : 1,000,000
                             {
                                 ReceiveChat("You won 1st Prize! Received 1,000,000 gold", ChatType.Hint);
@@ -11335,9 +11336,12 @@ namespace Server.MirObjects
                                 ReceiveChat("You won 6th Prize! Received 500 gold", ChatType.Hint);
                                 GainGold(500);
                             }
+
                             else
                             {
-                                ReceiveChat("You haven't won anything.", ChatType.Hint);
+                                MessageBox.Show("You Lost");
+                                //ReceiveChat("You haven't won anything.", ChatType.Hint);
+                                
                             }
                             break;
                     }
@@ -19076,9 +19080,8 @@ namespace Server.MirObjects
                 Enqueue(new S.RefreshItem { Item = Info.Equipment[(int)EquipmentSlot.RingL] });
             }
 
-
-            DivorceProposal.ReceiveChat(string.Format("You're now divorced", Info.Name), ChatType.System);
-            ReceiveChat("You're now divorced", ChatType.System);
+            DivorceProposal.ReceiveChat(string.Format(@"You're now divorced {0} ", Info.Name), ChatType.System);
+            ReceiveChat(@"You're now divorced", ChatType.System);
 
             GetRelationship(false);
             DivorceProposal.GetRelationship(false);
